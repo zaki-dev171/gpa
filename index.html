@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المعدل الجامعي | GPA Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0891b2;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.95);
+            font-weight: 400;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: none;
+            min-width: 150px;
+        }
+
+        .lang-dropdown.show {
+            display: block;
+            animation: fadeInDown 0.3s ease-out;
+        }
+
+        .lang-option {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .lang-option:hover {
+            background: var(--bg-main);
+        }
+
+        .lang-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Start Button */
+        .start-container {
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 20px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            margin: 40px 0;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .calculator-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: var(--text-secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        /* Subjects List */
+        .subjects-container {
+            margin-bottom: 30px;
+        }
+
+        .subject-card {
+            background: var(--bg-main);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            animation: slideInRight 0.4s ease-out backwards;
+        }
+
+        .subject-card:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .subject-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .grade-input {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .grade-input label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .grade-input input {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .grade-input input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        .subject-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: none;
+        }
+
+        .subject-result.show {
+            display: block;
+            animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        /* Add Subject Button */
+        .add-subject-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .add-subject-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Results Section */
+        .results-section {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+            color: white;
+            display: none;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .final-gpa {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .final-gpa h2 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+
+        .gpa-value {
+            font-size: 4rem;
+            font-weight: 900;
+            font-family: 'Cairo', sans-serif;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s;
+        }
+
+        .gpa-value.pass {
+            color: #10b981;
+        }
+
+        .gpa-value.fail {
+            color: #ef4444;
+        }
+
+        .gpa-scale {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .subjects-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .summary-item strong {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .summary-item span {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .calculate-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-md);
+        }
+
+        .calculate-btn:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .reset-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255,255,255,0.9);
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .footer p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .privacy-note {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .main-card {
+                padding: 25px;
+                border-radius: 16px;
+            }
+
+            .subject-header {
+                grid-template-columns: 1fr;
+            }
+
+            .gpa-value {
+                font-size: 3rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .language-switcher {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .lang-btn {
+                margin: 0 auto;
+                width: 200px;
+                justify-content: center;
+            }
+
+            .lang-dropdown {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="lang-btn" onclick="toggleLanguageDropdown()">
+                <span id="currentLangFlag">🇩🇿</span>
+                <span id="currentLangName">العربية</span>
+                <span>▼</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+                <div class="lang-option active" onclick="changeLanguage('ar')">
+                    <span>🇩🇿</span>
+                    <span>العربية</span>
+                </div>
+                <div class="lang-option" onclick="changeLanguage('en')">
+                    <span>🇬🇧</span>
+                    <span>English</span>
+                </div>
+                <div class="lang-option" onclick="changeLanguage('fr')">
+                    <span>🇲🇫</span>
+                    <span>Français</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1 id="headerTitle">🎓 حاسبة المعدل الجامعي</h1>
+            <p id="headerSubtitle">احسب معدلك الجامعي بدقة وسهولة</p>
+        </div>
+
+        <div class="main-card">
+            <!-- Home Section -->
+            <div id="homeSection">
+                <div class="start-container">
+                    <h2 id="welcomeText" style="color: var(--primary); margin-bottom: 20px;">مرحباً بك في حاسبة المعدل الجامعي</h2>
+                    <p id="instructionText" style="color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem;">
+                        أداة سهلة ومجانية لحساب معدلك الجامعي بدقة. أضف موادك، أدخل درجاتك، واحصل على معدلك فوراً!
+                    </p>
+                    <button class="start-btn" onclick="startCalculator()" id="startButton">
+                        احسب معدلك الآن
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calculator Section -->
+            <div id="calculatorSection" class="calculator-section">
+                <div class="section-header">
+                    <h2 class="section-title" id="calculatorTitle">
+                        <span>📊</span>
+                        <span id="specialtyName">حاسبة المعدل الجامعي</span>
+                    </h2>
+                    <button class="back-btn" onclick="goHome()" id="backButton">
+                        ← العودة للرئيسية
+                    </button>
+                </div>
+
+                <div id="subjectsContainer" class="subjects-container">
+                    <!-- Subjects will be added here dynamically -->
+                </div>
+
+                <button class="add-subject-btn" onclick="addSubject()" id="addSubjectButton">
+                    <span style="font-size: 1.5rem;">+</span>
+                    <span>إضافة مادة جديدة</span>
+                </button>
+
+                <button class="calculate-btn" onclick="calculateGPA()" id="calculateButton">
+                    احسب المعدل العام
+                </button>
+
+                <div id="resultsSection" class="results-section">
+                    <div class="final-gpa">
+                        <h2 id="finalGPATitle">المعدل العام الخاص بك</h2>
+                        <span class="gpa-value" id="gpaValue">0.00</span>
+                        <span class="gpa-scale" id="gpaScale">من 20</span>
+                    </div>
+                    <div class="subjects-summary">
+                        <div class="summary-item">
+                            <strong id="totalSubjectsLabel">عدد المواد</strong>
+                            <span id="totalSubjects">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <strong id="totalCoeffLabel">مجموع المعاملات</strong>
+                            <span id="totalCoefficients">0</span>
+                        </div>
+                    </div>
+                    <button class="reset-btn" onclick="resetCalculator()" id="resetButton">
+                        إعادة الحساب
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p id="footerText">جميع الحسابات تتم في متصفحك فقط</p>
+            <div class="privacy-note">
+                <span>🔒</span>
+                <span id="privacyText">لا نقوم بحفظ أو تخزين أي بيانات شخصية</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language Data
+        const translations = {
+            ar: {
+                headerTitle: "🎓 حاسبة المعدل الجامعي",
+                headerSubtitle: "احسب معدلك الجامعي بدقة وسهولة",
+                welcomeText: "مرحباً بك في حاسبة المعدل الجامعي",
+                instructionText: "أداة سهلة ومجانية لحساب معدلك الجامعي بدقة. أضف موادك، أدخل درجاتك، واحصل على معدلك فوراً!",
+                startButton: "احسب معدلك الآن",
+                calculatorTitle: "حاسبة المعدل الجامعي",
+                backButton: "← العودة للرئيسية",
+                addSubjectButton: "إضافة مادة جديدة",
+                calculateButton: "احسب المعدل العام",
+                finalGPATitle: "المعدل العام الخاص بك",
+                gpaScale: "من 20",
+                totalSubjectsLabel: "عدد المواد",
+                totalCoeffLabel: "مجموع المعاملات",
+                resetButton: "إعادة الحساب",
+                footerText: "جميع الحسابات تتم في متصفحك فقط",
+                privacyText: "لا نقوم بحفظ أو تخزين أي بيانات شخصية",
+                subjectNamePlaceholder: "المادة",
+                coefficientLabel: "المعامل",
+                evaluationLabel: "نوع التقييم",
+                examOption: "اختبار فقط",
+                examTDOption: "اختبار + TD",
+                examTPOption: "اختبار + TP",
+                examTDTPOption: "اختبار + TD + TP",
+                examGradeLabel: "نقطة الاختبار (100%)",
+                examGradeLabel60: "نقطة الاختبار (60%)",
+                tdGradeLabel: "نقطة TD (40%)",
+                tpGradeLabel: "نقطة TP (40%)",
+                tdGradeLabel2: "نقطة TD (20%)",
+                tpGradeLabel2: "نقطة TP (20%)",
+                deleteButton: "🗑️ حذف المادة",
+                confirmReset: "هل تريد حذف جميع المواد؟"
+            },
+            en: {
+                headerTitle: "🎓 University GPA Calculator",
+                headerSubtitle: "Calculate your GPA accurately and easily",
+                welcomeText: "Welcome to University GPA Calculator",
+                instructionText: "Easy and free tool to calculate your university GPA accurately. Add your subjects, enter your grades, and get your GPA instantly!",
+                startButton: "Calculate Your GPA Now",
+                calculatorTitle: "University GPA Calculator",
+                backButton: "← Back to Home",
+                addSubjectButton: "Add New Subject",
+                calculateButton: "Calculate Overall GPA",
+                finalGPATitle: "Your Overall GPA",
+                gpaScale: "out of 20",
+                totalSubjectsLabel: "Total Subjects",
+                totalCoeffLabel: "Total Coefficients",
+                resetButton: "Reset Calculator",
+                footerText: "All calculations are done in your browser only",
+                privacyText: "We do not save or store any personal data",
+                subjectNamePlaceholder: "Subject",
+                coefficientLabel: "Coefficient",
+                evaluationLabel: "Evaluation Type",
+                examOption: "Exam only",
+                examTDOption: "Exam + TD",
+                examTPOption: "Exam + TP",
+                examTDTPOption: "Exam + TD + TP",
+                examGradeLabel: "Exam Grade (100%)",
+                examGradeLabel60: "Exam Grade (60%)",
+                tdGradeLabel: "TD Grade (40%)",
+                tpGradeLabel: "TP Grade (40%)",
+                tdGradeLabel2: "TD Grade (20%)",
+                tpGradeLabel2: "TP Grade (20%)",
+                deleteButton: "🗑️ Delete Subject",
+                confirmReset: "Do you want to delete all subjects?"
+            },
+            fr: {
+                headerTitle: "🎓 Calculateur de Moyenne Universitaire",
+                headerSubtitle: "Calculez votre moyenne avec précision et facilité",
+                welcomeText: "Bienvenue au Calculateur de Moyenne Universitaire",
+                instructionText: "Outil facile et gratuit pour calculer votre moyenne universitaire avec précision. Ajoutez vos matières, entrez vos notes et obtenez votre moyenne instantanément !",
+                startButton: "Calculez Votre Moyenne Maintenant",
+                calculatorTitle: "Calculateur de Moyenne Universitaire",
+                backButton: "← Retour à l'Accueil",
+                addSubjectButton: "Ajouter une Nouvelle Matière",
+                calculateButton: "Calculer la Moyenne Générale",
+                finalGPATitle: "Votre Moyenne Générale",
+                gpaScale: "sur 20",
+                totalSubjectsLabel: "Nombre de Matières",
+                totalCoeffLabel: "Somme des Coefficients",
+                resetButton: "Réinitialiser le Calculateur",
+                footerText: "Tous les calculs sont effectués uniquement dans votre navigateur",
+                privacyText: "Nous ne sauvegardons ni ne stockons aucune donnée personnelle",
+                subjectNamePlaceholder: "Matière",
+                coefficientLabel: "Coefficient",
+                evaluationLabel: "Type d'Évaluation",
+                examOption: "Examen seulement",
+                examTDOption: "Examen + TD",
+                examTPOption: "Examen + TP",
+                examTDTPOption: "Examen + TD + TP",
+                examGradeLabel: "Note d'Examen (100%)",
+                examGradeLabel60: "Note d'Examen (60%)",
+                tdGradeLabel: "Note de TD (40%)",
+                tpGradeLabel: "Note de TP (40%)",
+                tdGradeLabel2: "Note de TD (20%)",
+                tpGradeLabel2: "Note de TP (20%)",
+                deleteButton: "🗑️ Supprimer la Matière",
+                confirmReset: "Voulez-vous supprimer toutes les matières ?"
+            }
+        };
+
+        let currentLanguage = 'ar';
+        let subjectCounter = 0;
+        let saveTimeout = null;
+
+        // Language Functions
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active state in dropdown
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.lang-option').classList.add('active');
+            
+            // Update current language display
+            const flags = { 'ar': '🇩🇿', 'en': '🇬🇧', 'fr': '🇲🇫' };
+            const names = { 'ar': 'العربية', 'en': 'English', 'fr': 'Français' };
+            
+            document.getElementById('currentLangFlag').textContent = flags[lang];
+            document.getElementById('currentLangName').textContent = names[lang];
+            
+            // Apply translations
+            applyTranslations();
+            
+            // Close dropdown
+            document.getElementById('langDropdown').classList.remove('show');
+            
+            // Save language preference
+            localStorage.setItem('gpaCalculatorLanguage', lang);
+            
+            // Auto-save data
+            autoSaveData();
+        }
+
+        function applyTranslations() {
+            const t = translations[currentLanguage];
+            
+            // Update all translatable elements
+            document.getElementById('headerTitle').textContent = t.headerTitle;
+            document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
+            document.getElementById('welcomeText').textContent = t.welcomeText;
+            document.getElementById('instructionText').textContent = t.instructionText;
+            document.getElementById('startButton').textContent = t.startButton;
+            document.getElementById('calculatorTitle').textContent = t.calculatorTitle;
+            document.getElementById('backButton').textContent = t.backButton;
+            document.getElementById('addSubjectButton').innerHTML = `<span style="font-size: 1.5rem;">+</span><span>${t.addSubjectButton}</span>`;
+            document.getElementById('calculateButton').textContent = t.calculateButton;
+            document.getElementById('finalGPATitle').textContent = t.finalGPATitle;
+            document.getElementById('gpaScale').textContent = t.gpaScale;
+            document.getElementById('totalSubjectsLabel').textContent = t.totalSubjectsLabel;
+            document.getElementById('totalCoeffLabel').textContent = t.totalCoeffLabel;
+            document.getElementById('resetButton').textContent = t.resetButton;
+            document.getElementById('footerText').textContent = t.footerText;
+            document.getElementById('privacyText').textContent = t.privacyText;
+            
+            // Update existing subject cards
+            updateExistingSubjects();
+        }
+
+        function updateExistingSubjects() {
+            const t = translations[currentLanguage];
+            const subjects = document.querySelectorAll('.subject-card');
+            
+            subjects.forEach(subject => {
+                const subjectNameInput = subject.querySelector('.subject-name');
+                if (subjectNameInput && !subjectNameInput.value) {
+                    subjectNameInput.placeholder = t.subjectNamePlaceholder;
+                }
+                
+                const coefficientLabel = subject.querySelector('.form-group:nth-child(2) label');
+                if (coefficientLabel) coefficientLabel.textContent = t.coefficientLabel;
+                
+                const evaluationLabel = subject.querySelector('.form-group:nth-child(3) label');
+                if (evaluationLabel) evaluationLabel.textContent = t.evaluationLabel;
+                
+                const selectOptions = subject.querySelectorAll('.evaluation-type option');
+                if (selectOptions.length === 4) {
+                    selectOptions[0].textContent = t.examOption;
+                    selectOptions[1].textContent = t.examTDOption;
+                    selectOptions[2].textContent = t.examTPOption;
+                    selectOptions[3].textContent = t.examTDTPOption;
+                }
+                
+                const gradeInputs = subject.querySelectorAll('.grade-input');
+                const type = subject.querySelector('.evaluation-type').value;
+                gradeInputs.forEach((input, index) => {
+                    const label = input.querySelector('label');
+                    if (label) {
+                        if (index === 0) {
+                            if (type === 'exam') {
+                                label.textContent = t.examGradeLabel;
+                            } else {
+                                label.textContent = t.examGradeLabel60;
+                            }
+                        } else if (input.querySelector('.td-grade')) {
+                            if (type === 'exam-td-tp') {
+                                label.textContent = t.tdGradeLabel2;
+                            } else {
+                                label.textContent = t.tdGradeLabel;
+                            }
+                        } else if (input.querySelector('.tp-grade')) {
+                            if (type === 'exam-td-tp') {
+                                label.textContent = t.tpGradeLabel2;
+                            } else {
+                                label.textContent = t.tpGradeLabel;
+                            }
+                        }
+                    }
+                });
+                
+                const deleteBtn = subject.querySelector('.delete-btn');
+                if (deleteBtn) deleteBtn.textContent = t.deleteButton;
+            });
+        }
+
+        // Main Functions
+        function startCalculator() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('calculatorSection').classList.add('active');
+            
+            // Load saved data if exists
+            loadSavedData();
+            
+            // Add first subject if none exists
+            if (document.getElementById('subjectsContainer').children.length === 0) {
+                addSubject();
+            }
+        }
+
+        function goHome() {
+            if (confirm(translations[currentLanguage].confirmReset)) {
+                document.getElementById('homeSection').style.display = 'block';
+                document.getElementById('calculatorSection').classList.remove('active');
+                document.getElementById('resultsSection').classList.remove('show');
+                
+                // Clear subjects
+                document.getElementById('subjectsContainer').innerHTML = '';
+                subjectCounter = 0;
+                
+                // Clear saved data
+                localStorage.removeItem('gpaCalculatorData');
+            }
+        }
+
+        function addSubject() {
+            subjectCounter++;
+            const container = document.getElementById('subjectsContainer');
+            const t = translations[currentLanguage];
+            
+            const subjectCard = document.createElement('div');
+            subjectCard.className = 'subject-card';
+            subjectCard.id = `subject-${subjectCounter}`;
+            subjectCard.style.animationDelay = `${container.children.length * 0.1}s`;
+            
+            subjectCard.innerHTML = `
+                <div class="subject-header">
+                    <div class="form-group">
+                        <label>${t.subjectNamePlaceholder}</label>
+                        <input type="text" placeholder="${t.subjectNamePlaceholder}" class="subject-name" oninput="autoSaveData()">
+                    </div>
+                    <div class="form-group">
+                        <label>${t.coefficientLabel}</label>
+                        <input type="number" min="1" max="10" value="1" class="subject-coefficient" oninput="autoSaveData()">
+                    </div>
+                    <div class="form-group">
+                        <label>${t.evaluationLabel}</label>
+                        <select class="evaluation-type" onchange="updateGradeFields(${subjectCounter})" oninput="autoSaveData()">
+                            <option value="exam">${t.examOption}</option>
+                            <option value="exam-td">${t.examTDOption}</option>
+                            <option value="exam-tp">${t.examTPOption}</option>
+                            <option value="exam-td-tp">${t.examTDTPOption}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grades-grid" id="grades-${subjectCounter}">
+                    <div class="grade-input">
+                        <label>${t.examGradeLabel}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="exam-grade" oninput="autoSaveData()">
+                    </div>
+                </div>
+                <div class="subject-result" id="result-${subjectCounter}"></div>
+                <button class="delete-btn" onclick="deleteSubject(${subjectCounter})">${t.deleteButton}</button>
+            `;
+            
+            container.appendChild(subjectCard);
+            
+            // Auto-save after adding subject
+            autoSaveData();
+        }
+
+        function updateGradeFields(subjectId) {
+            const subject = document.getElementById(`subject-${subjectId}`);
+            const type = subject.querySelector('.evaluation-type').value;
+            const gradesGrid = document.getElementById(`grades-${subjectId}`);
+            const t = translations[currentLanguage];
+            
+            // Save current values before updating
+            const examGrade = subject.querySelector('.exam-grade').value;
+            const tdGrade = subject.querySelector('.td-grade')?.value || '';
+            const tpGrade = subject.querySelector('.tp-grade')?.value || '';
+            
+            let html = '';
+            
+            if (type === 'exam') {
+                html = `
+                    <div class="grade-input">
+                        <label>${t.examGradeLabel}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="exam-grade" oninput="autoSaveData()" value="${examGrade}">
+                    </div>
+                `;
+            } else if (type === 'exam-td') {
+                html = `
+                    <div class="grade-input">
+                        <label>${t.examGradeLabel60}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="exam-grade" oninput="autoSaveData()" value="${examGrade}">
+                    </div>
+                    <div class="grade-input">
+                        <label>${t.tdGradeLabel}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="td-grade" oninput="autoSaveData()" value="${tdGrade}">
+                    </div>
+                `;
+            } else if (type === 'exam-tp') {
+                html = `
+                    <div class="grade-input">
+                        <label>${t.examGradeLabel60}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="exam-grade" oninput="autoSaveData()" value="${examGrade}">
+                    </div>
+                    <div class="grade-input">
+                        <label>${t.tpGradeLabel}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="tp-grade" oninput="autoSaveData()" value="${tpGrade}">
+                    </div>
+                `;
+            } else if (type === 'exam-td-tp') {
+                html = `
+                    <div class="grade-input">
+                        <label>${t.examGradeLabel60}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="exam-grade" oninput="autoSaveData()" value="${examGrade}">
+                    </div>
+                    <div class="grade-input">
+                        <label>${t.tdGradeLabel2}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="td-grade" oninput="autoSaveData()" value="${tdGrade}">
+                    </div>
+                    <div class="grade-input">
+                        <label>${t.tpGradeLabel2}</label>
+                        <input type="number" min="0" max="20" step="0.25" placeholder="0.00" class="tp-grade" oninput="autoSaveData()" value="${tpGrade}">
+                    </div>
+                `;
+            }
+            
+            gradesGrid.innerHTML = html;
+            
+            // Auto-save after updating grade fields
+            autoSaveData();
+        }
+
+        function deleteSubject(subjectId) {
+            const subject = document.getElementById(`subject-${subjectId}`);
+            if (subject) {
+                subject.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    subject.remove();
+                    autoSaveData();
+                }, 300);
+            }
+        }
+
+        function calculateSubjectGPA(subject) {
+            const type = subject.querySelector('.evaluation-type').value;
+            const examGrade = parseFloat(subject.querySelector('.exam-grade').value) || 0;
+            
+            let subjectGPA = 0;
+            
+            if (type === 'exam') {
+                // اختبار فقط: 100%
+                subjectGPA = examGrade;
+            } else if (type === 'exam-td') {
+                const tdGrade = parseFloat(subject.querySelector('.td-grade').value) || 0;
+                subjectGPA = (examGrade * 0.6) + (tdGrade * 0.4);
+            } else if (type === 'exam-tp') {
+                const tpGrade = parseFloat(subject.querySelector('.tp-grade').value) || 0;
+                subjectGPA = (examGrade * 0.6) + (tpGrade * 0.4);
+            } else if (type === 'exam-td-tp') {
+                const tdGrade = parseFloat(subject.querySelector('.td-grade').value) || 0;
+                const tpGrade = parseFloat(subject.querySelector('.tp-grade').value) || 0;
+                const tdTpAverage = (tdGrade + tpGrade) / 2;
+                subjectGPA = (examGrade * 0.6) + (tdTpAverage * 0.4);
+            }
+            
+            return subjectGPA;
+        }
+
+        function calculateGPA() {
+            const container = document.getElementById('subjectsContainer');
+            const subjects = container.querySelectorAll('.subject-card');
+            
+            if (subjects.length === 0) {
+                alert('الرجاء إضافة مادة واحدة على الأقل');
+                return;
+            }
+            
+            let totalWeightedGPA = 0;
+            let totalCoefficients = 0;
+            let validSubjects = 0;
+            
+            subjects.forEach((subject, index) => {
+                const name = subject.querySelector('.subject-name').value;
+                const coefficient = parseFloat(subject.querySelector('.subject-coefficient').value) || 0;
+                
+                if (!name || coefficient === 0) {
+                    return;
+                }
+                
+                const subjectGPA = calculateSubjectGPA(subject);
+                const weightedGPA = subjectGPA * coefficient;
+                
+                totalWeightedGPA += weightedGPA;
+                totalCoefficients += coefficient;
+                validSubjects++;
+                
+                // Show subject result
+                const resultDiv = subject.querySelector('.subject-result');
+                const subjectResultText = currentLanguage === 'ar' ? 'معدل المادة:' : 
+                                         currentLanguage === 'en' ? 'Subject GPA:' : 
+                                         'Moyenne de la matière:';
+                resultDiv.textContent = `${subjectResultText} ${subjectGPA.toFixed(2)} / 20`;
+                resultDiv.classList.add('show');
+            });
+            
+            if (validSubjects === 0) {
+                alert('الرجاء إدخال اسم ومعامل لمادة واحدة على الأقل');
+                return;
+            }
+            
+            const finalGPA = totalWeightedGPA / totalCoefficients;
+            
+            // Display results
+            const gpaValueElement = document.getElementById('gpaValue');
+            gpaValueElement.textContent = finalGPA.toFixed(2);
+            
+            // Apply color based on GPA
+            if (finalGPA >= 10) {
+                gpaValueElement.classList.remove('fail');
+                gpaValueElement.classList.add('pass');
+            } else {
+                gpaValueElement.classList.remove('pass');
+                gpaValueElement.classList.add('fail');
+            }
+            
+            document.getElementById('totalSubjects').textContent = validSubjects;
+            document.getElementById('totalCoefficients').textContent = totalCoefficients;
+            document.getElementById('resultsSection').classList.add('show');
+            
+            // Scroll to results
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Auto-save after calculation
+            autoSaveData();
+        }
+
+        function resetCalculator() {
+            const subjects = document.querySelectorAll('.subject-card');
+            subjects.forEach(subject => {
+                const inputs = subject.querySelectorAll('input[type="number"]');
+                inputs.forEach(input => input.value = '');
+                
+                const resultDiv = subject.querySelector('.subject-result');
+                resultDiv.classList.remove('show');
+            });
+            
+            document.getElementById('resultsSection').classList.remove('show');
+            
+            // Reset GPA color
+            const gpaValueElement = document.getElementById('gpaValue');
+            gpaValueElement.classList.remove('pass', 'fail');
+            
+            // Auto-save after reset
+            autoSaveData();
+        }
+
+        // Data Auto-Saving Functions
+        function autoSaveData() {
+            // Clear any existing timeout
+            if (saveTimeout) {
+                clearTimeout(saveTimeout);
+            }
+            
+            // Set new timeout to save after 1 second of inactivity
+            saveTimeout = setTimeout(() => {
+                saveDataSilently();
+            }, 1000);
+        }
+
+        function saveDataSilently() {
+            const container = document.getElementById('subjectsContainer');
+            const subjects = container.querySelectorAll('.subject-card');
+            
+            const data = [];
+            subjects.forEach(subject => {
+                const subjectData = {
+                    name: subject.querySelector('.subject-name').value,
+                    coefficient: subject.querySelector('.subject-coefficient').value,
+                    evaluationType: subject.querySelector('.evaluation-type').value,
+                    examGrade: subject.querySelector('.exam-grade').value,
+                    tdGrade: subject.querySelector('.td-grade')?.value || '',
+                    tpGrade: subject.querySelector('.tp-grade')?.value || ''
+                };
+                data.push(subjectData);
+            });
+            
+            localStorage.setItem('gpaCalculatorData', JSON.stringify(data));
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('gpaCalculatorData');
+            if (!savedData) return;
+            
+            try {
+                const data = JSON.parse(savedData);
+                
+                // Clear existing subjects
+                document.getElementById('subjectsContainer').innerHTML = '';
+                subjectCounter = 0;
+                
+                // Add saved subjects
+                data.forEach(subjectData => {
+                    addSubject();
+                    
+                    const currentSubject = document.getElementById(`subject-${subjectCounter}`);
+                    if (currentSubject) {
+                        currentSubject.querySelector('.subject-name').value = subjectData.name;
+                        currentSubject.querySelector('.subject-coefficient').value = subjectData.coefficient;
+                        
+                        // Set evaluation type and update fields
+                        currentSubject.querySelector('.evaluation-type').value = subjectData.evaluationType;
+                        
+                        // Update grade fields based on evaluation type
+                        updateGradeFields(subjectCounter);
+                        
+                        // Set grades after a small delay to ensure fields are created
+                        setTimeout(() => {
+                            currentSubject.querySelector('.exam-grade').value = subjectData.examGrade;
+                            if (subjectData.tdGrade && currentSubject.querySelector('.td-grade')) {
+                                currentSubject.querySelector('.td-grade').value = subjectData.tdGrade;
+                            }
+                            if (subjectData.tpGrade && currentSubject.querySelector('.tp-grade')) {
+                                currentSubject.querySelector('.tp-grade').value = subjectData.tpGrade;
+                            }
+                        }, 100);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading saved data:', error);
+                // If there's an error, clear the corrupted data
+                localStorage.removeItem('gpaCalculatorData');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved language preference
+            const savedLanguage = localStorage.getItem('gpaCalculatorLanguage');
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+                applyTranslations();
+                
+                // Update dropdown active state
+                document.querySelectorAll('.lang-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.getAttribute('onclick') === `changeLanguage('${savedLanguage}')`) {
+                        option.classList.add('active');
+                    }
+                });
+                
+                // Update current language display
+                const flags = { 'ar': '🇩🇿', 'en': '🇬🇧', 'fr': '🇲🇫' };
+                const names = { 'ar': 'العربية', 'en': 'English', 'fr': 'Français' };
+                
+                document.getElementById('currentLangFlag').textContent = flags[savedLanguage];
+                document.getElementById('currentLangName').textContent = names[savedLanguage];
+            }
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('langDropdown');
+                const button = document.querySelector('.lang-btn');
+                if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Auto-save when leaving the page
+            window.addEventListener('beforeunload', function() {
+                saveDataSilently();
+            });
+        });
+
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
