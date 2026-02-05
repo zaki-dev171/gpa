@@ -7,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7815335520625600"
+     crossorigin="anonymous"></script>
     <style>
         :root {
             --primary: #1e40af;
@@ -47,34 +50,25 @@
             margin: 0 auto;
         }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s ease-out;
+        /* Top Bar - Navigation & Language */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .header h1 {
-            font-family: 'Cairo', sans-serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            color: white;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.95);
-            font-weight: 400;
+        .nav-lang-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         /* Navigation */
         .navigation {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            position: relative;
             z-index: 100;
         }
 
@@ -92,6 +86,8 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s;
+            min-width: 120px;
+            justify-content: center;
         }
 
         .nav-btn:hover {
@@ -110,6 +106,7 @@
             overflow: hidden;
             display: none;
             min-width: 200px;
+            z-index: 1000;
         }
 
         .nav-dropdown.show {
@@ -138,9 +135,7 @@
 
         /* Language Switcher */
         .language-switcher {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+            position: relative;
             z-index: 100;
         }
 
@@ -158,6 +153,8 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s;
+            min-width: 120px;
+            justify-content: center;
         }
 
         .lang-btn:hover {
@@ -176,6 +173,7 @@
             overflow: hidden;
             display: none;
             min-width: 150px;
+            z-index: 1000;
         }
 
         .lang-dropdown.show {
@@ -200,6 +198,29 @@
         .lang-option.active {
             background: var(--primary);
             color: white;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.95);
+            font-weight: 400;
         }
 
         /* Info Pages */
@@ -645,6 +666,16 @@
             display: inline-block;
         }
 
+        /* Ads Container */
+        .ads-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
         /* Animations */
         @keyframes fadeInDown {
             from {
@@ -705,6 +736,37 @@
                 padding: 15px;
             }
 
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .nav-lang-container {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navigation, .language-switcher {
+                width: 100%;
+            }
+
+            .nav-btn, .lang-btn {
+                width: 100%;
+                justify-content: center;
+                min-width: auto;
+            }
+
+            .nav-dropdown {
+                width: 100%;
+                right: 0;
+            }
+
+            .lang-dropdown {
+                width: 100%;
+                left: 0;
+            }
+
             .main-card {
                 padding: 25px;
                 border-radius: 16px;
@@ -723,82 +785,99 @@
                 align-items: flex-start;
             }
 
-            .language-switcher, .navigation {
-                position: relative;
-                top: 0;
-                left: 0;
-                right: 0;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-
-            .lang-btn, .nav-btn {
-                margin: 0 auto;
-                width: 200px;
-                justify-content: center;
-            }
-
-            .lang-dropdown, .nav-dropdown {
-                left: 50%;
-                right: auto;
-                transform: translateX(-50%);
-            }
-
             .info-content {
                 padding: 25px;
+            }
+
+            .start-btn {
+                padding: 16px 40px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .top-bar {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-lang-container {
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .nav-btn, .lang-btn {
+                min-width: 140px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .nav-lang-container {
+                flex-direction: row;
+                gap: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Navigation -->
-        <div class="navigation">
-            <button class="nav-btn" onclick="toggleNavDropdown()">
-                <span>☰</span>
-                <span id="navMenuText">القائمة</span>
-            </button>
-            <div class="nav-dropdown" id="navDropdown">
-                <div class="nav-option" onclick="showHome()">
-                    <span>🏠</span>
-                    <span id="navHomeText">الرئيسية</span>
+        <!-- Top Bar - Navigation & Language -->
+        <div class="top-bar">
+            <div class="nav-lang-container">
+                <!-- Navigation -->
+                <div class="navigation">
+                    <button class="nav-btn" onclick="toggleNavDropdown()">
+                        <span>☰</span>
+                        <span id="navMenuText">القائمة</span>
+                    </button>
+                    <div class="nav-dropdown" id="navDropdown">
+                        <div class="nav-option" onclick="showHome()">
+                            <span>🏠</span>
+                            <span id="navHomeText">الرئيسية</span>
+                        </div>
+                        <div class="nav-option" onclick="showPrivacyPolicy()">
+                            <span>🔒</span>
+                            <span id="navPrivacyText">سياسة الخصوصية</span>
+                        </div>
+                        <div class="nav-option" onclick="showAboutUs()">
+                            <span>👥</span>
+                            <span id="navAboutText">من نحن</span>
+                        </div>
+                        <div class="nav-option" onclick="showContactUs()">
+                            <span>📧</span>
+                            <span id="navContactText">اتصل بنا</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="nav-option" onclick="showPrivacyPolicy()">
-                    <span>🔒</span>
-                    <span id="navPrivacyText">سياسة الخصوصية</span>
-                </div>
-                <div class="nav-option" onclick="showAboutUs()">
-                    <span>👥</span>
-                    <span id="navAboutText">من نحن</span>
-                </div>
-                <div class="nav-option" onclick="showContactUs()">
-                    <span>📧</span>
-                    <span id="navContactText">اتصل بنا</span>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn" onclick="toggleLanguageDropdown()">
+                        <span id="currentLangFlag">🇩🇿</span>
+                        <span id="currentLangName">العربية</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option active" onclick="changeLanguage('ar')">
+                            <span>🇩🇿</span>
+                            <span>العربية</span>
+                        </div>
+                        <div class="lang-option" onclick="changeLanguage('en')">
+                            <span>🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="lang-option" onclick="changeLanguage('fr')">
+                            <span>🇲🇫</span>
+                            <span>Français</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Language Switcher -->
-        <div class="language-switcher">
-            <button class="lang-btn" onclick="toggleLanguageDropdown()">
-                <span id="currentLangFlag">🇩🇿</span>
-                <span id="currentLangName">العربية</span>
-                <span>▼</span>
-            </button>
-            <div class="lang-dropdown" id="langDropdown">
-                <div class="lang-option active" onclick="changeLanguage('ar')">
-                    <span>🇩🇿</span>
-                    <span>العربية</span>
-                </div>
-                <div class="lang-option" onclick="changeLanguage('en')">
-                    <span>🇬🇧</span>
-                    <span>English</span>
-                </div>
-                <div class="lang-option" onclick="changeLanguage('fr')">
-                    <span>🇲🇫</span>
-                    <span>Français</span>
-                </div>
-            </div>
+        <!-- Ads Container (Optional) -->
+        <div class="ads-container">
+            <!-- Ads will be displayed here by Google AdSense -->
         </div>
 
         <div class="header">
@@ -1035,7 +1114,7 @@
                     "حفظ تلقائي للبيانات على جهازك",
                     "واجهة متعددة اللغات (عربية، إنجليزية، فرنسية)",
                     "تصميم متجاوب يعمل على جميع الأجهزة",
-                    "استخدام مجاني بالكامل دون إعلانات"
+                    
                 ],
                 aboutText4: "نحن فريق من المطورين نؤمن بأهمية التعليم ونسعى لتقديم أدوات مفيدة للطلاب. هدفنا هو جعل تجربة حساب المعدلات أسهل وأكثر فعالية.",
                 aboutBackBtn: "← العودة للرئيسية",
@@ -1139,7 +1218,7 @@
                     "Automatic data saving on your device",
                     "Multi-language interface (Arabic, English, French)",
                     "Responsive design that works on all devices",
-                    "Completely free use without ads"
+                    
                 ],
                 aboutText4: "We are a team of developers who believe in the importance of education and strive to provide useful tools for students. Our goal is to make the GPA calculation experience easier and more effective.",
                 aboutBackBtn: "← Back to Home",
@@ -1243,7 +1322,7 @@
                     "Sauvegarde automatique des données sur votre appareil",
                     "Interface multilingue (Arabe, Anglais, Français)",
                     "Design responsive fonctionnant sur tous les appareils",
-                    "Utilisation complètement gratuite sans publicités"
+                    
                 ],
                 aboutText4: "Nous sommes une équipe de développeurs qui croient en l'importance de l'éducation et s'efforcent de fournir des outils utiles aux étudiants. Notre objectif est de rendre l'expérience de calcul des moyennes plus facile et plus efficace.",
                 aboutBackBtn: "← Retour à l'Accueil",
