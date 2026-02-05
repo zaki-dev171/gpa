@@ -70,6 +70,72 @@
             font-weight: 400;
         }
 
+        /* Navigation */
+        .navigation {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .nav-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: none;
+            min-width: 200px;
+        }
+
+        .nav-dropdown.show {
+            display: block;
+            animation: fadeInDown 0.3s ease-out;
+        }
+
+        .nav-option {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-option:last-child {
+            border-bottom: none;
+        }
+
+        .nav-option:hover {
+            background: var(--bg-main);
+        }
+
         /* Language Switcher */
         .language-switcher {
             position: absolute;
@@ -134,6 +200,70 @@
         .lang-option.active {
             background: var(--primary);
             color: white;
+        }
+
+        /* Info Pages */
+        .info-page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .info-page.active {
+            display: block;
+        }
+
+        .info-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 30px;
+        }
+
+        .info-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .info-list {
+            padding-right: 20px;
+            margin: 20px 0;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .contact-email {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 1.2rem;
+        }
+
+        .contact-email a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .contact-email a:hover {
+            text-decoration: underline;
         }
 
         /* Start Button */
@@ -593,29 +723,61 @@
                 align-items: flex-start;
             }
 
-            .language-switcher {
+            .language-switcher, .navigation {
                 position: relative;
                 top: 0;
                 left: 0;
+                right: 0;
                 margin-bottom: 20px;
                 text-align: center;
             }
 
-            .lang-btn {
+            .lang-btn, .nav-btn {
                 margin: 0 auto;
                 width: 200px;
                 justify-content: center;
             }
 
-            .lang-dropdown {
+            .lang-dropdown, .nav-dropdown {
                 left: 50%;
+                right: auto;
                 transform: translateX(-50%);
+            }
+
+            .info-content {
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="toggleNavDropdown()">
+                <span>☰</span>
+                <span id="navMenuText">القائمة</span>
+            </button>
+            <div class="nav-dropdown" id="navDropdown">
+                <div class="nav-option" onclick="showHome()">
+                    <span>🏠</span>
+                    <span id="navHomeText">الرئيسية</span>
+                </div>
+                <div class="nav-option" onclick="showPrivacyPolicy()">
+                    <span>🔒</span>
+                    <span id="navPrivacyText">سياسة الخصوصية</span>
+                </div>
+                <div class="nav-option" onclick="showAboutUs()">
+                    <span>👥</span>
+                    <span id="navAboutText">من نحن</span>
+                </div>
+                <div class="nav-option" onclick="showContactUs()">
+                    <span>📧</span>
+                    <span id="navContactText">اتصل بنا</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Language Switcher -->
         <div class="language-switcher">
             <button class="lang-btn" onclick="toggleLanguageDropdown()">
@@ -646,7 +808,7 @@
 
         <div class="main-card">
             <!-- Home Section -->
-            <div id="homeSection">
+            <div id="homeSection" class="info-page active">
                 <div class="start-container">
                     <h2 id="welcomeText" style="color: var(--primary); margin-bottom: 20px;">مرحباً بك في حاسبة المعدل الجامعي</h2>
                     <p id="instructionText" style="color: var(--text-secondary); margin-bottom: 30px; font-size: 1.1rem;">
@@ -658,6 +820,110 @@
                 </div>
             </div>
 
+            <!-- Privacy Policy Page -->
+            <div id="privacyPolicyPage" class="info-page">
+                <div class="info-content">
+                    <h2 class="info-title" id="privacyTitle">سياسة الخصوصية</h2>
+                    <p class="info-text" id="privacyText1">
+                        نحن في حاسبة المعدل الجامعي نحرص على خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك.
+                    </p>
+                    <p class="info-text" id="privacyText2">
+                        <strong>معلومات لا نجمعها:</strong>
+                    </p>
+                    <ul class="info-list" id="privacyList1">
+                        <li>لا نطلب أو نخزن أي معلومات شخصية (الاسم، البريد الإلكتروني، رقم الهاتف)</li>
+                        <li>لا نستخدم ملفات تعريف الارتباط (Cookies) للتتبع</li>
+                        <li>لا نشارك بياناتك مع أي أطراف ثالثة</li>
+                    </ul>
+                    <p class="info-text" id="privacyText3">
+                        <strong>معلومات نحتفظ بها محلياً:</strong>
+                    </p>
+                    <ul class="info-list" id="privacyList2">
+                        <li>بيانات المواد والدرجات التي تدخلها (يتم حفظها في متصفحك فقط)</li>
+                        <li>تفضيلات اللغة (يتم حفظها في متصفحك فقط)</li>
+                        <li>جميع البيانات محفوظة على جهازك ولا تصل إلينا أبداً</li>
+                    </ul>
+                    <p class="info-text" id="privacyText4">
+                        <strong>التزامنا بحماية خصوصيتك:</strong><br>
+                        التطبيق يعمل بالكامل على جهازك دون الحاجة إلى إرسال أي بيانات إلى خوادم خارجية. يمكنك استخدام التطبيق بثقة تامة بأن خصوصيتك محمية.
+                    </p>
+                    <p class="info-text" id="privacyText5">
+                        إذا كان لديك أي استفسارات حول سياسة الخصوصية، يمكنك التواصل معنا عبر البريد الإلكتروني.
+                    </p>
+                    <button class="back-btn" onclick="showHome()" id="privacyBackBtn">
+                        ← العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Us Page -->
+            <div id="aboutUsPage" class="info-page">
+                <div class="info-content">
+                    <h2 class="info-title" id="aboutTitle">من نحن</h2>
+                    <p class="info-text" id="aboutText1">
+                        مرحباً بكم في <strong>حاسبة المعدل الجامعي</strong>، أداة مجانية صممناها خصيصاً لطلاب الجامعات لتسهيل عملية حساب المعدلات الفصلية والسنوية.
+                    </p>
+                    <p class="info-text" id="aboutText2">
+                        <strong>رسالتنا:</strong>
+                    </p>
+                    <ul class="info-list" id="aboutList1">
+                        <li>توفير أداة سهلة ومجانية لحساب المعدلات</li>
+                        <li>مساعدة الطلاب على تتبع أدائهم الأكاديمي</li>
+                        <li>تقديم واجهة بسيطة وسهلة الاستخدام</li>
+                        <li>ضمان دقة الحسابات وسرعتها</li>
+                    </ul>
+                    <p class="info-text" id="aboutText3">
+                        <strong>مميزات التطبيق:</strong>
+                    </p>
+                    <ul class="info-list" id="aboutList2">
+                        <li>حساب دقيق للمعدلات بناءً على نظام المعاملات</li>
+                        <li>دعم أنواع مختلفة من التقييم (اختبار، TD، TP)</li>
+                        <li>حفظ تلقائي للبيانات على جهازك</li>
+                        <li>واجهة متعددة اللغات (عربية، إنجليزية، فرنسية)</li>
+                        <li>تصميم متجاوب يعمل على جميع الأجهزة</li>
+                        <li>استخدام مجاني بالكامل دون إعلانات</li>
+                    </ul>
+                    <p class="info-text" id="aboutText4">
+                        نحن فريق من المطورين نؤمن بأهمية التعليم ونسعى لتقديم أدوات مفيدة للطلاب. هدفنا هو جعل تجربة حساب المعدلات أسهل وأكثر فعالية.
+                    </p>
+                    <button class="back-btn" onclick="showHome()" id="aboutBackBtn">
+                        ← العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contact Us Page -->
+            <div id="contactUsPage" class="info-page">
+                <div class="info-content">
+                    <h2 class="info-title" id="contactTitle">اتصل بنا</h2>
+                    <p class="info-text" id="contactText1">
+                        نحن هنا لمساعدتك! إذا كان لديك أي استفسارات، اقتراحات، أو مشاكل في استخدام التطبيق، لا تتردد في التواصل معنا.
+                    </p>
+                    <div class="contact-email">
+                        <p id="contactText2">البريد الإلكتروني:</p>
+                        <p>
+                            <a href="mailto:webetud1@gmail.com" id="contactEmail">webetud1@gmail.com</a>
+                        </p>
+                    </div>
+                    <p class="info-text" id="contactText3">
+                        <strong>نوع الاستفسارات التي يمكننا مساعدتك بها:</strong>
+                    </p>
+                    <ul class="info-list" id="contactList1">
+                        <li>مشاكل تقنية في استخدام التطبيق</li>
+                        <li>اقتراحات لتطوير التطبيق وتحسينه</li>
+                        <li>أسئلة حول كيفية استخدام الحاسبة</li>
+                        <li>استفسارات حول سياسة الخصوصية</li>
+                        <li>تعاون أو شراكات</li>
+                    </ul>
+                    <p class="info-text" id="contactText4">
+                        نحن نحرص على الرد على جميع رسائلكم في أقرب وقت ممكن. نشكركم على استخدام تطبيق حاسبة المعدل الجامعي ونأمل أن يكون مفيداً لكم في مسيرتكم الأكاديمية.
+                    </p>
+                    <button class="back-btn" onclick="showHome()" id="contactBackBtn">
+                        ← العودة للرئيسية
+                    </button>
+                </div>
+            </div>
+
             <!-- Calculator Section -->
             <div id="calculatorSection" class="calculator-section">
                 <div class="section-header">
@@ -665,7 +931,7 @@
                         <span>📊</span>
                         <span id="specialtyName">حاسبة المعدل الجامعي</span>
                     </h2>
-                    <button class="back-btn" onclick="goHome()" id="backButton">
+                    <button class="back-btn" onclick="showHome()" id="backButton">
                         ← العودة للرئيسية
                     </button>
                 </div>
@@ -719,11 +985,78 @@
         // Language Data
         const translations = {
             ar: {
+                // Navigation
+                navMenuText: "القائمة",
+                navHomeText: "الرئيسية",
+                navPrivacyText: "سياسة الخصوصية",
+                navAboutText: "من نحن",
+                navContactText: "اتصل بنا",
+                
+                // Header
                 headerTitle: "🎓 حاسبة المعدل الجامعي",
                 headerSubtitle: "احسب معدلك الجامعي بدقة وسهولة",
                 welcomeText: "مرحباً بك في حاسبة المعدل الجامعي",
                 instructionText: "أداة سهلة ومجانية لحساب معدلك الجامعي بدقة. أضف موادك، أدخل درجاتك، واحصل على معدلك فوراً!",
                 startButton: "احسب معدلك الآن",
+                
+                // Privacy Policy
+                privacyTitle: "سياسة الخصوصية",
+                privacyText1: "نحن في حاسبة المعدل الجامعي نحرص على خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك.",
+                privacyText2: "معلومات لا نجمعها:",
+                privacyList1: [
+                    "لا نطلب أو نخزن أي معلومات شخصية (الاسم، البريد الإلكتروني، رقم الهاتف)",
+                    "لا نستخدم ملفات تعريف الارتباط (Cookies) للتتبع",
+                    "لا نشارك بياناتك مع أي أطراف ثالثة"
+                ],
+                privacyText3: "معلومات نحتفظ بها محلياً:",
+                privacyList2: [
+                    "بيانات المواد والدرجات التي تدخلها (يتم حفظها في متصفحك فقط)",
+                    "تفضيلات اللغة (يتم حفظها في متصفحك فقط)",
+                    "جميع البيانات محفوظة على جهازك ولا تصل إلينا أبداً"
+                ],
+                privacyText4: "التزامنا بحماية خصوصيتك: التطبيق يعمل بالكامل على جهازك دون الحاجة إلى إرسال أي بيانات إلى خوادم خارجية. يمكنك استخدام التطبيق بثقة تامة بأن خصوصيتك محمية.",
+                privacyText5: "إذا كان لديك أي استفسارات حول سياسة الخصوصية، يمكنك التواصل معنا عبر البريد الإلكتروني.",
+                privacyBackBtn: "← العودة للرئيسية",
+                
+                // About Us
+                aboutTitle: "من نحن",
+                aboutText1: "مرحباً بكم في حاسبة المعدل الجامعي، أداة مجانية صممناها خصيصاً لطلاب الجامعات لتسهيل عملية حساب المعدلات الفصلية والسنوية.",
+                aboutText2: "رسالتنا:",
+                aboutList1: [
+                    "توفير أداة سهلة ومجانية لحساب المعدلات",
+                    "مساعدة الطلاب على تتبع أدائهم الأكاديمي",
+                    "تقديم واجهة بسيطة وسهلة الاستخدام",
+                    "ضمان دقة الحسابات وسرعتها"
+                ],
+                aboutText3: "مميزات التطبيق:",
+                aboutList2: [
+                    "حساب دقيق للمعدلات بناءً على نظام المعاملات",
+                    "دعم أنواع مختلفة من التقييم (اختبار، TD، TP)",
+                    "حفظ تلقائي للبيانات على جهازك",
+                    "واجهة متعددة اللغات (عربية، إنجليزية، فرنسية)",
+                    "تصميم متجاوب يعمل على جميع الأجهزة",
+                    "استخدام مجاني بالكامل دون إعلانات"
+                ],
+                aboutText4: "نحن فريق من المطورين نؤمن بأهمية التعليم ونسعى لتقديم أدوات مفيدة للطلاب. هدفنا هو جعل تجربة حساب المعدلات أسهل وأكثر فعالية.",
+                aboutBackBtn: "← العودة للرئيسية",
+                
+                // Contact Us
+                contactTitle: "اتصل بنا",
+                contactText1: "نحن هنا لمساعدتك! إذا كان لديك أي استفسارات، اقتراحات، أو مشاكل في استخدام التطبيق، لا تتردد في التواصل معنا.",
+                contactText2: "البريد الإلكتروني:",
+                contactEmail: "webetud1@gmail.com",
+                contactText3: "نوع الاستفسارات التي يمكننا مساعدتك بها:",
+                contactList1: [
+                    "مشاكل تقنية في استخدام التطبيق",
+                    "اقتراحات لتطوير التطبيق وتحسينه",
+                    "أسئلة حول كيفية استخدام الحاسبة",
+                    "استفسارات حول سياسة الخصوصية",
+                    "تعاون أو شراكات"
+                ],
+                contactText4: "نحن نحرص على الرد على جميع رسائلكم في أقرب وقت ممكن. نشكركم على استخدام تطبيق حاسبة المعدل الجامعي ونأمل أن يكون مفيداً لكم في مسيرتكم الأكاديمية.",
+                contactBackBtn: "← العودة للرئيسية",
+                
+                // Calculator
                 calculatorTitle: "حاسبة المعدل الجامعي",
                 backButton: "← العودة للرئيسية",
                 addSubjectButton: "إضافة مادة جديدة",
@@ -733,8 +1066,8 @@
                 totalSubjectsLabel: "عدد المواد",
                 totalCoeffLabel: "مجموع المعاملات",
                 resetButton: "إعادة الحساب",
-                footerText: "جميع الحسابات تتم في متصفحك فقط",
-                privacyText: "لا نقوم بحفظ أو تخزين أي بيانات شخصية",
+                
+                // Calculator Form
                 subjectNamePlaceholder: "المادة",
                 coefficientLabel: "المعامل",
                 evaluationLabel: "نوع التقييم",
@@ -749,14 +1082,85 @@
                 tdGradeLabel2: "نقطة TD (20%)",
                 tpGradeLabel2: "نقطة TP (20%)",
                 deleteButton: "🗑️ حذف المادة",
-                confirmReset: "هل تريد حذف جميع المواد؟"
+                confirmReset: "هل تريد حذف جميع المواد؟",
+                
+                // Footer
+                footerText: "جميع الحسابات تتم في متصفحك فقط",
+                privacyText: "لا نقوم بحفظ أو تخزين أي بيانات شخصية"
             },
             en: {
+                // Navigation
+                navMenuText: "Menu",
+                navHomeText: "Home",
+                navPrivacyText: "Privacy Policy",
+                navAboutText: "About Us",
+                navContactText: "Contact Us",
+                
+                // Header
                 headerTitle: "🎓 University GPA Calculator",
                 headerSubtitle: "Calculate your GPA accurately and easily",
                 welcomeText: "Welcome to University GPA Calculator",
                 instructionText: "Easy and free tool to calculate your university GPA accurately. Add your subjects, enter your grades, and get your GPA instantly!",
                 startButton: "Calculate Your GPA Now",
+                
+                // Privacy Policy
+                privacyTitle: "Privacy Policy",
+                privacyText1: "At University GPA Calculator, we value your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and protect your information.",
+                privacyText2: "Information we do NOT collect:",
+                privacyList1: [
+                    "We do not request or store any personal information (name, email, phone number)",
+                    "We do not use tracking cookies",
+                    "We do not share your data with any third parties"
+                ],
+                privacyText3: "Information we store locally:",
+                privacyList2: [
+                    "Subject and grade data you enter (stored only in your browser)",
+                    "Language preferences (stored only in your browser)",
+                    "All data is saved on your device and never reaches us"
+                ],
+                privacyText4: "Our commitment to your privacy: The application works entirely on your device without sending any data to external servers. You can use the application with full confidence that your privacy is protected.",
+                privacyText5: "If you have any questions about the privacy policy, you can contact us via email.",
+                privacyBackBtn: "← Back to Home",
+                
+                // About Us
+                aboutTitle: "About Us",
+                aboutText1: "Welcome to University GPA Calculator, a free tool we designed specifically for university students to facilitate calculating semester and annual GPAs.",
+                aboutText2: "Our mission:",
+                aboutList1: [
+                    "Provide an easy and free GPA calculation tool",
+                    "Help students track their academic performance",
+                    "Offer a simple and user-friendly interface",
+                    "Ensure calculation accuracy and speed"
+                ],
+                aboutText3: "Application features:",
+                aboutList2: [
+                    "Accurate GPA calculation based on coefficient system",
+                    "Support for different evaluation types (Exam, TD, TP)",
+                    "Automatic data saving on your device",
+                    "Multi-language interface (Arabic, English, French)",
+                    "Responsive design that works on all devices",
+                    "Completely free use without ads"
+                ],
+                aboutText4: "We are a team of developers who believe in the importance of education and strive to provide useful tools for students. Our goal is to make the GPA calculation experience easier and more effective.",
+                aboutBackBtn: "← Back to Home",
+                
+                // Contact Us
+                contactTitle: "Contact Us",
+                contactText1: "We are here to help! If you have any inquiries, suggestions, or problems using the application, do not hesitate to contact us.",
+                contactText2: "Email:",
+                contactEmail: "webetud1@gmail.com",
+                contactText3: "Types of inquiries we can help with:",
+                contactList1: [
+                    "Technical problems using the application",
+                    "Suggestions for developing and improving the application",
+                    "Questions about how to use the calculator",
+                    "Inquiries about privacy policy",
+                    "Collaboration or partnerships"
+                ],
+                contactText4: "We strive to respond to all your messages as soon as possible. Thank you for using the University GPA Calculator and we hope it is useful for your academic journey.",
+                contactBackBtn: "← Back to Home",
+                
+                // Calculator
                 calculatorTitle: "University GPA Calculator",
                 backButton: "← Back to Home",
                 addSubjectButton: "Add New Subject",
@@ -766,8 +1170,8 @@
                 totalSubjectsLabel: "Total Subjects",
                 totalCoeffLabel: "Total Coefficients",
                 resetButton: "Reset Calculator",
-                footerText: "All calculations are done in your browser only",
-                privacyText: "We do not save or store any personal data",
+                
+                // Calculator Form
                 subjectNamePlaceholder: "Subject",
                 coefficientLabel: "Coefficient",
                 evaluationLabel: "Evaluation Type",
@@ -782,14 +1186,85 @@
                 tdGradeLabel2: "TD Grade (20%)",
                 tpGradeLabel2: "TP Grade (20%)",
                 deleteButton: "🗑️ Delete Subject",
-                confirmReset: "Do you want to delete all subjects?"
+                confirmReset: "Do you want to delete all subjects?",
+                
+                // Footer
+                footerText: "All calculations are done in your browser only",
+                privacyText: "We do not save or store any personal data"
             },
             fr: {
+                // Navigation
+                navMenuText: "Menu",
+                navHomeText: "Accueil",
+                navPrivacyText: "Politique de Confidentialité",
+                navAboutText: "À Propos",
+                navContactText: "Contactez-Nous",
+                
+                // Header
                 headerTitle: "🎓 Calculateur de Moyenne Universitaire",
                 headerSubtitle: "Calculez votre moyenne avec précision et facilité",
                 welcomeText: "Bienvenue au Calculateur de Moyenne Universitaire",
                 instructionText: "Outil facile et gratuit pour calculer votre moyenne universitaire avec précision. Ajoutez vos matières, entrez vos notes et obtenez votre moyenne instantanément !",
                 startButton: "Calculez Votre Moyenne Maintenant",
+                
+                // Privacy Policy
+                privacyTitle: "Politique de Confidentialité",
+                privacyText1: "Chez Calculateur de Moyenne Universitaire, nous accordons de l'importance à votre vie privée et nous nous engageons à protéger vos données personnelles. Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos informations.",
+                privacyText2: "Informations que nous NE collectons PAS :",
+                privacyList1: [
+                    "Nous ne demandons ni ne stockons aucune information personnelle (nom, email, numéro de téléphone)",
+                    "Nous n'utilisons pas de cookies de suivi",
+                    "Nous ne partageons pas vos données avec des tiers"
+                ],
+                privacyText3: "Informations que nous stockons localement :",
+                privacyList2: [
+                    "Données des matières et notes que vous entrez (stockées uniquement dans votre navigateur)",
+                    "Préférences linguistiques (stockées uniquement dans votre navigateur)",
+                    "Toutes les données sont enregistrées sur votre appareil et ne nous parviennent jamais"
+                ],
+                privacyText4: "Notre engagement envers votre vie privée : L'application fonctionne entièrement sur votre appareil sans envoyer de données à des serveurs externes. Vous pouvez utiliser l'application en toute confiance, sachant que votre vie privée est protégée.",
+                privacyText5: "Si vous avez des questions concernant la politique de confidentialité, vous pouvez nous contacter par email.",
+                privacyBackBtn: "← Retour à l'Accueil",
+                
+                // About Us
+                aboutTitle: "À Propos de Nous",
+                aboutText1: "Bienvenue au Calculateur de Moyenne Universitaire, un outil gratuit que nous avons conçu spécifiquement pour les étudiants universitaires afin de faciliter le calcul des moyennes semestrielles et annuelles.",
+                aboutText2: "Notre mission :",
+                aboutList1: [
+                    "Fournir un outil de calcul de moyenne facile et gratuit",
+                    "Aider les étudiants à suivre leur performance académique",
+                    "Offrir une interface simple et conviviale",
+                    "Garantir la précision et la rapidité des calculs"
+                ],
+                aboutText3: "Fonctionnalités de l'application :",
+                aboutList2: [
+                    "Calcul précis des moyennes basé sur le système de coefficients",
+                    "Prise en charge de différents types d'évaluation (Examen, TD, TP)",
+                    "Sauvegarde automatique des données sur votre appareil",
+                    "Interface multilingue (Arabe, Anglais, Français)",
+                    "Design responsive fonctionnant sur tous les appareils",
+                    "Utilisation complètement gratuite sans publicités"
+                ],
+                aboutText4: "Nous sommes une équipe de développeurs qui croient en l'importance de l'éducation et s'efforcent de fournir des outils utiles aux étudiants. Notre objectif est de rendre l'expérience de calcul des moyennes plus facile et plus efficace.",
+                aboutBackBtn: "← Retour à l'Accueil",
+                
+                // Contact Us
+                contactTitle: "Contactez-Nous",
+                contactText1: "Nous sommes là pour vous aider ! Si vous avez des questions, des suggestions ou des problèmes d'utilisation de l'application, n'hésitez pas à nous contacter.",
+                contactText2: "Email :",
+                contactEmail: "webetud1@gmail.com",
+                contactText3: "Types de questions pour lesquelles nous pouvons vous aider :",
+                contactList1: [
+                    "Problèmes techniques d'utilisation de l'application",
+                    "Suggestions pour développer et améliorer l'application",
+                    "Questions sur l'utilisation du calculateur",
+                    "Questions sur la politique de confidentialité",
+                    "Collaborations ou partenariats"
+                ],
+                contactText4: "Nous nous efforçons de répondre à tous vos messages dès que possible. Merci d'utiliser le Calculateur de Moyenne Universitaire et nous espérons qu'il vous sera utile dans votre parcours académique.",
+                contactBackBtn: "← Retour à l'Accueil",
+                
+                // Calculator
                 calculatorTitle: "Calculateur de Moyenne Universitaire",
                 backButton: "← Retour à l'Accueil",
                 addSubjectButton: "Ajouter une Nouvelle Matière",
@@ -799,8 +1274,8 @@
                 totalSubjectsLabel: "Nombre de Matières",
                 totalCoeffLabel: "Somme des Coefficients",
                 resetButton: "Réinitialiser le Calculateur",
-                footerText: "Tous les calculs sont effectués uniquement dans votre navigateur",
-                privacyText: "Nous ne sauvegardons ni ne stockons aucune donnée personnelle",
+                
+                // Calculator Form
                 subjectNamePlaceholder: "Matière",
                 coefficientLabel: "Coefficient",
                 evaluationLabel: "Type d'Évaluation",
@@ -815,13 +1290,65 @@
                 tdGradeLabel2: "Note de TD (20%)",
                 tpGradeLabel2: "Note de TP (20%)",
                 deleteButton: "🗑️ Supprimer la Matière",
-                confirmReset: "Voulez-vous supprimer toutes les matières ?"
+                confirmReset: "Voulez-vous supprimer toutes les matières ?",
+                
+                // Footer
+                footerText: "Tous les calculs sont effectués uniquement dans votre navigateur",
+                privacyText: "Nous ne sauvegardons ni ne stockons aucune donnée personnelle"
             }
         };
 
         let currentLanguage = 'ar';
         let subjectCounter = 0;
         let saveTimeout = null;
+
+        // Navigation Functions
+        function toggleNavDropdown() {
+            const dropdown = document.getElementById('navDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        function showHome() {
+            // Hide all pages
+            document.querySelectorAll('.info-page, .calculator-section').forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+            
+            // Show home page
+            document.getElementById('homeSection').classList.add('active');
+            document.getElementById('homeSection').style.display = 'block';
+            
+            // Close dropdown
+            document.getElementById('navDropdown').classList.remove('show');
+        }
+
+        function showPrivacyPolicy() {
+            showPage('privacyPolicyPage');
+        }
+
+        function showAboutUs() {
+            showPage('aboutUsPage');
+        }
+
+        function showContactUs() {
+            showPage('contactUsPage');
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.info-page, .calculator-section').forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+            
+            // Show requested page
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById(pageId).style.display = 'block';
+            
+            // Close dropdown
+            document.getElementById('navDropdown').classList.remove('show');
+        }
 
         // Language Functions
         function toggleLanguageDropdown() {
@@ -848,7 +1375,7 @@
             // Apply translations
             applyTranslations();
             
-            // Close dropdown
+            // Close dropdowns
             document.getElementById('langDropdown').classList.remove('show');
             
             // Save language preference
@@ -861,12 +1388,58 @@
         function applyTranslations() {
             const t = translations[currentLanguage];
             
-            // Update all translatable elements
+            // Update navigation
+            document.getElementById('navMenuText').textContent = t.navMenuText;
+            document.getElementById('navHomeText').textContent = t.navHomeText;
+            document.getElementById('navPrivacyText').textContent = t.navPrivacyText;
+            document.getElementById('navAboutText').textContent = t.navAboutText;
+            document.getElementById('navContactText').textContent = t.navContactText;
+            
+            // Update header
             document.getElementById('headerTitle').textContent = t.headerTitle;
             document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
             document.getElementById('welcomeText').textContent = t.welcomeText;
             document.getElementById('instructionText').textContent = t.instructionText;
             document.getElementById('startButton').textContent = t.startButton;
+            
+            // Update privacy policy page
+            document.getElementById('privacyTitle').textContent = t.privacyTitle;
+            document.getElementById('privacyText1').textContent = t.privacyText1;
+            document.getElementById('privacyText2').innerHTML = t.privacyText2;
+            document.getElementById('privacyText3').innerHTML = t.privacyText3;
+            document.getElementById('privacyText4').textContent = t.privacyText4;
+            document.getElementById('privacyText5').textContent = t.privacyText5;
+            document.getElementById('privacyBackBtn').textContent = t.privacyBackBtn;
+            
+            // Update privacy lists
+            updateList('privacyList1', t.privacyList1);
+            updateList('privacyList2', t.privacyList2);
+            
+            // Update about us page
+            document.getElementById('aboutTitle').textContent = t.aboutTitle;
+            document.getElementById('aboutText1').textContent = t.aboutText1;
+            document.getElementById('aboutText2').innerHTML = t.aboutText2;
+            document.getElementById('aboutText3').innerHTML = t.aboutText3;
+            document.getElementById('aboutText4').textContent = t.aboutText4;
+            document.getElementById('aboutBackBtn').textContent = t.aboutBackBtn;
+            
+            // Update about lists
+            updateList('aboutList1', t.aboutList1);
+            updateList('aboutList2', t.aboutList2);
+            
+            // Update contact us page
+            document.getElementById('contactTitle').textContent = t.contactTitle;
+            document.getElementById('contactText1').textContent = t.contactText1;
+            document.getElementById('contactText2').textContent = t.contactText2;
+            document.getElementById('contactText3').innerHTML = t.contactText3;
+            document.getElementById('contactText4').textContent = t.contactText4;
+            document.getElementById('contactEmail').textContent = t.contactEmail;
+            document.getElementById('contactBackBtn').textContent = t.contactBackBtn;
+            
+            // Update contact list
+            updateList('contactList1', t.contactList1);
+            
+            // Update calculator
             document.getElementById('calculatorTitle').textContent = t.calculatorTitle;
             document.getElementById('backButton').textContent = t.backButton;
             document.getElementById('addSubjectButton').innerHTML = `<span style="font-size: 1.5rem;">+</span><span>${t.addSubjectButton}</span>`;
@@ -876,11 +1449,20 @@
             document.getElementById('totalSubjectsLabel').textContent = t.totalSubjectsLabel;
             document.getElementById('totalCoeffLabel').textContent = t.totalCoeffLabel;
             document.getElementById('resetButton').textContent = t.resetButton;
-            document.getElementById('footerText').textContent = t.footerText;
-            document.getElementById('privacyText').textContent = t.privacyText;
             
             // Update existing subject cards
             updateExistingSubjects();
+            
+            // Update footer
+            document.getElementById('footerText').textContent = t.footerText;
+            document.getElementById('privacyText').textContent = t.privacyText;
+        }
+
+        function updateList(listId, items) {
+            const listElement = document.getElementById(listId);
+            if (listElement) {
+                listElement.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+            }
         }
 
         function updateExistingSubjects() {
@@ -941,8 +1523,15 @@
 
         // Main Functions
         function startCalculator() {
-            document.getElementById('homeSection').style.display = 'none';
+            // Hide all pages
+            document.querySelectorAll('.info-page').forEach(page => {
+                page.classList.remove('active');
+                page.style.display = 'none';
+            });
+            
+            // Show calculator section
             document.getElementById('calculatorSection').classList.add('active');
+            document.getElementById('calculatorSection').style.display = 'block';
             
             // Load saved data if exists
             loadSavedData();
@@ -950,21 +1539,6 @@
             // Add first subject if none exists
             if (document.getElementById('subjectsContainer').children.length === 0) {
                 addSubject();
-            }
-        }
-
-        function goHome() {
-            if (confirm(translations[currentLanguage].confirmReset)) {
-                document.getElementById('homeSection').style.display = 'block';
-                document.getElementById('calculatorSection').classList.remove('active');
-                document.getElementById('resultsSection').classList.remove('show');
-                
-                // Clear subjects
-                document.getElementById('subjectsContainer').innerHTML = '';
-                subjectCounter = 0;
-                
-                // Clear saved data
-                localStorage.removeItem('gpaCalculatorData');
             }
         }
 
@@ -1305,12 +1879,19 @@
                 document.getElementById('currentLangName').textContent = names[savedLanguage];
             }
             
-            // Close dropdown when clicking outside
+            // Close dropdowns when clicking outside
             document.addEventListener('click', function(event) {
-                const dropdown = document.getElementById('langDropdown');
-                const button = document.querySelector('.lang-btn');
-                if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-                    dropdown.classList.remove('show');
+                const langDropdown = document.getElementById('langDropdown');
+                const langButton = document.querySelector('.lang-btn');
+                const navDropdown = document.getElementById('navDropdown');
+                const navButton = document.querySelector('.nav-btn');
+                
+                if (!langButton.contains(event.target) && !langDropdown.contains(event.target)) {
+                    langDropdown.classList.remove('show');
+                }
+                
+                if (!navButton.contains(event.target) && !navDropdown.contains(event.target)) {
+                    navDropdown.classList.remove('show');
                 }
             });
             
