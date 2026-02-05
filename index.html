@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة المعدل الجامعي | GPA Calculator</title>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VDDR0VK9GE"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-VDDR0VK9GE');
-    </script>
-    <!-- Google Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7815335520625600"
-     crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>حساب المعدل الجامعي بدقة | حاسبة معدل لطلبة الجامعة</title>
+
+  <meta name="description"
+        content="احسب معدلك الجامعي بسهولة ودقة حسب النظام الجامعي الجزائري. حاسبة معدل مجانية بدون تسجيل لطلبة الجامعة." />
+
+  <meta name="keywords"
+        content="حساب المعدل الجامعي, حاسبة المعدل الجامعي, حساب المعدل الجامعي الجزائر" />
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://webetud.netlify.app/">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VDDR0VK9GE"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VDDR0VK9GE');
+  </script>
+  <!-- Google Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7815335520625600"
+   crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1e40af;
@@ -225,6 +237,14 @@
             letter-spacing: -1px;
         }
 
+        .header h2 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 600;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 10px;
+        }
+
         .header p {
             font-size: 1.1rem;
             color: rgba(255,255,255,0.95);
@@ -328,6 +348,28 @@
             padding: 40px;
             box-shadow: var(--shadow-xl);
             animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Description Section */
+        .description-section {
+            background: var(--bg-main);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .description-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .description-section p:last-child {
+            margin-bottom: 0;
         }
 
         /* Calculator Section */
@@ -802,6 +844,10 @@
                 padding: 16px 40px;
                 font-size: 1.5rem;
             }
+
+            .description-section {
+                padding: 20px;
+            }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -890,7 +936,8 @@
         </div>
 
         <div class="header">
-            <h1 id="headerTitle">🎓 حاسبة المعدل الجامعي</h1>
+            <h1>حساب المعدل الجامعي</h1>
+            <h2>حاسبة معدل لطلبة الجامعة الجزائرية</h2>
             <p id="headerSubtitle">احسب معدلك الجامعي بدقة وسهولة</p>
         </div>
 
@@ -1057,6 +1104,20 @@
                         إعادة الحساب
                     </button>
                 </div>
+
+                <!-- Description Section under Calculator -->
+                <div class="description-section">
+                    <p>
+                        يتيح لك هذا الموقع حساب المعدل الجامعي بدقة وفق نظام التقييم المعتمد
+                        في الجامعات الجزائرية، سواء كانت المواد تعتمد على الامتحان فقط
+                        أو على الامتحان مع الأعمال الموجهة TD أو التطبيقية TP.
+                    </p>
+
+                    <p>
+                        الحاسبة مجانية، سهلة الاستعمال، ولا تتطلب أي تسجيل.
+                        ما عليك إلا إدخال علاماتك لتحصل على المعدل النهائي فورًا.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -1081,8 +1142,8 @@
                 navContactText: "اتصل بنا",
                 
                 // Header
-                headerTitle: "🎓 حاسبة المعدل الجامعي",
-                headerSubtitle: "احسب معدلك الجامعي بدقة وسهولة",
+                headerTitle: "حساب المعدل الجامعي",
+                headerSubtitle: "حاسبة معدل لطلبة الجامعة الجزائرية",
                 welcomeText: "مرحباً بك في حاسبة المعدل الجامعي",
                 instructionText: "أداة سهلة ومجانية لحساب معدلك الجامعي بدقة. أضف موادك، أدخل درجاتك، واحصل على معدلك فوراً!",
                 startButton: "احسب معدلك الآن",
@@ -1174,7 +1235,11 @@
                 
                 // Footer
                 footerText: "جميع الحسابات تتم في متصفحك فقط",
-                privacyText: "لا نقوم بحفظ أو تخزين أي بيانات شخصية"
+                privacyText: "لا نقوم بحفظ أو تخزين أي بيانات شخصية",
+                
+                // Description Section
+                descriptionText1: "يتيح لك هذا الموقع حساب المعدل الجامعي بدقة وفق نظام التقييم المعتمد في الجامعات الجزائرية، سواء كانت المواد تعتمد على الامتحان فقط أو على الامتحان مع الأعمال الموجهة TD أو التطبيقية TP.",
+                descriptionText2: "الحاسبة مجانية، سهلة الاستعمال، ولا تتطلب أي تسجيل. ما عليك إلا إدخال علاماتك لتحصل على المعدل النهائي فورًا."
             },
             en: {
                 // Navigation
@@ -1185,8 +1250,8 @@
                 navContactText: "Contact Us",
                 
                 // Header
-                headerTitle: "🎓 University GPA Calculator",
-                headerSubtitle: "Calculate your GPA accurately and easily",
+                headerTitle: "University GPA Calculation",
+                headerSubtitle: "GPA Calculator for Algerian University Students",
                 welcomeText: "Welcome to University GPA Calculator",
                 instructionText: "Easy and free tool to calculate your university GPA accurately. Add your subjects, enter your grades, and get your GPA instantly!",
                 startButton: "Calculate Your GPA Now",
@@ -1278,7 +1343,11 @@
                 
                 // Footer
                 footerText: "All calculations are done in your browser only",
-                privacyText: "We do not save or store any personal data"
+                privacyText: "We do not save or store any personal data",
+                
+                // Description Section
+                descriptionText1: "This site allows you to accurately calculate your university GPA according to the evaluation system adopted in Algerian universities, whether the subjects depend on the exam only or on the exam with directed work (TD) or practical work (TP).",
+                descriptionText2: "The calculator is free, easy to use, and does not require any registration. All you have to do is enter your grades to get the final average immediately."
             },
             fr: {
                 // Navigation
@@ -1289,8 +1358,8 @@
                 navContactText: "Contactez-Nous",
                 
                 // Header
-                headerTitle: "🎓 Calculateur de Moyenne Universitaire",
-                headerSubtitle: "Calculez votre moyenne avec précision et facilité",
+                headerTitle: "Calcul de Moyenne Universitaire",
+                headerSubtitle: "Calculateur de Moyenne pour Étudiants Algériens",
                 welcomeText: "Bienvenue au Calculateur de Moyenne Universitaire",
                 instructionText: "Outil facile et gratuit pour calculer votre moyenne universitaire avec précision. Ajoutez vos matières, entrez vos notes et obtenez votre moyenne instantanément !",
                 startButton: "Calculez Votre Moyenne Maintenant",
@@ -1382,7 +1451,11 @@
                 
                 // Footer
                 footerText: "Tous les calculs sont effectués uniquement dans votre navigateur",
-                privacyText: "Nous ne sauvegardons ni ne stockons aucune donnée personnelle"
+                privacyText: "Nous ne sauvegardons ni ne stockons aucune donnée personnelle",
+                
+                // Description Section
+                descriptionText1: "Ce site vous permet de calculer avec précision votre moyenne universitaire selon le système d'évaluation adopté dans les universités algériennes, que les matières dépendent uniquement de l'examen ou de l'examen avec travaux dirigés (TD) ou travaux pratiques (TP).",
+                descriptionText2: "La calculatrice est gratuite, facile à utiliser et ne nécessite aucune inscription. Il vous suffit d'entrer vos notes pour obtenir la moyenne finale immédiatement."
             }
         };
 
@@ -1484,8 +1557,11 @@
             document.getElementById('navContactText').textContent = t.navContactText;
             
             // Update header
-            document.getElementById('headerTitle').textContent = t.headerTitle;
-            document.getElementById('headerSubtitle').textContent = t.headerSubtitle;
+            document.querySelector('.header h1').textContent = t.headerTitle;
+            document.querySelector('.header h2').textContent = t.headerSubtitle;
+            document.getElementById('headerSubtitle').textContent = currentLanguage === 'ar' ? 'احسب معدلك الجامعي بدقة وسهولة' : 
+                                                                    currentLanguage === 'en' ? 'Calculate your GPA accurately and easily' : 
+                                                                    'Calculez votre moyenne avec précision et facilité';
             document.getElementById('welcomeText').textContent = t.welcomeText;
             document.getElementById('instructionText').textContent = t.instructionText;
             document.getElementById('startButton').textContent = t.startButton;
@@ -1544,6 +1620,13 @@
             // Update footer
             document.getElementById('footerText').textContent = t.footerText;
             document.getElementById('privacyText').textContent = t.privacyText;
+            
+            // Update description section
+            const descriptionParagraphs = document.querySelectorAll('.description-section p');
+            if (descriptionParagraphs.length >= 2) {
+                descriptionParagraphs[0].textContent = t.descriptionText1;
+                descriptionParagraphs[1].textContent = t.descriptionText2;
+            }
         }
 
         function updateList(listId, items) {
