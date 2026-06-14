@@ -2,92 +2,125 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>حاسبة المعدل الجامعي | الرئيسية</title>
-    <meta name="description" content="احسب معدلك الجامعي بسهولة ودقة حسب النظام الجامعي الجزائري.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="description" content="احسب معدلك الجامعي بسهولة ودقة حسب النظام الجامعي الجزائري. الحاسبة مجانية ولا تحتاج تسجيل.">
+    <meta name="keywords" content="حاسبة المعدل, معدل جامعي, GPA, الجزائر, حساب المعدل">
+    <meta name="robots" content="index,follow">
+    <meta name="author" content="حساب المعدل">
+    <meta name="theme-color" content="#1e40af">
+
+    <link rel="canonical" href="https://zaki-dev171.github.io/gpa/">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Fonts (keep display=swap for performance) -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
-    <!-- Google AdSense -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "حاسبة المعدل الجامعي",
+      "url": "https://zaki-dev171.github.io/gpa/",
+      "description": "حاسبة حساب المعدل الجامعي بدقة وسهولة، تعمل محلياً في متصفح المستخدم بدون تسجيل.",
+      "applicationCategory": "Education",
+      "operatingSystem": "All",
+      "offers": {"@type":"Offer","price":"0"}
+    }
+    </script>
+
+    <!-- Google AdSense (kept as requested) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7815335520625600" crossorigin="anonymous"></script>
-    <!-- Google Analytics -->
+    <!-- Google Analytics (kept as requested) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VDDR0VK9GE"></script>
-    <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-VDDR0VK9GE');</script>
+    <script>
+      window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-VDDR0VK9GE');
+    </script>
 </head>
 <body>
 <div class="container">
     <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="nav-lang-container">
-            <a href="index.html" class="nav-btn" data-i18n="navHome">🏠 الرئيسية</a>
-            <a href="privacy.html" class="nav-btn" data-i18n="navPrivacy">🔒 سياسة الخصوصية</a>
-            <a href="about.html" class="nav-btn" data-i18n="navAbout">👥 من نحن</a>
-            <a href="contact.html" class="nav-btn" data-i18n="navContact">📧 اتصل بنا</a>
-        </div>
-        <div class="language-switcher">
-            <button class="lang-btn"><span id="currentLangFlag">🇩🇿</span> <span id="currentLangName">العربية</span> ▼</button>
-            <div class="lang-dropdown" id="langDropdown">
-                <div class="lang-option active" data-lang="ar">🇩🇿 العربية</div>
-                <div class="lang-option" data-lang="en">🇬🇧 English</div>
-                <div class="lang-option" data-lang="fr">🇲🇫 Français</div>
+    <header class="top-bar" role="banner">
+        <nav class="nav-lang-container" role="navigation" aria-label="Main navigation">
+            <a href="index.html" class="nav-btn" data-i18n="navHome" aria-label="الرئيسية">🏠 الرئيسية</a>
+            <a href="privacy.html" class="nav-btn" data-i18n="navPrivacy" aria-label="سياسة الخصوصية">🔒 سياسة الخصوصية</a>
+            <a href="about.html" class="nav-btn" data-i18n="navAbout" aria-label="من نحن">👥 من نحن</a>
+            <a href="contact.html" class="nav-btn" data-i18n="navContact" aria-label="اتصل بنا">📧 اتصل بنا</a>
+        </nav>
+
+        <div class="language-switcher" role="region" aria-label="Language switcher">
+            <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false"><span id="currentLangFlag">🇩🇿</span> <span id="currentLangName">العربية</span> ▼</button>
+            <div class="lang-dropdown" id="langDropdown" role="menu" aria-hidden="true">
+                <div class="lang-option active" data-lang="ar" role="menuitem" tabindex="0">🇩🇿 العربية</div>
+                <div class="lang-option" data-lang="en" role="menuitem" tabindex="0">🇬🇧 English</div>
+                <div class="lang-option" data-lang="fr" role="menuitem" tabindex="0">🇲🇫 Français</div>
             </div>
         </div>
-    </div>
+    </header>
 
     <!-- Ad Space Top -->
-    <div class="ads-container">
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7815335520625600" data-ad-slot="1234567890" data-ad-format="auto"></ins>
+    <div class="ads-container" aria-hidden="false">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7815335520625600" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <div class="header">
-        <h1>حساب المعدل الجامعي</h1>
-        <h2>حاسبة معدل لطلبة الجامعة الجزائرية</h2>
-        <p>احسب معدلك الجامعي بدقة وسهولة</p>
-    </div>
-
-    <div class="main-card">
-        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom:20px;">
-            <h2 class="section-title" data-i18n="calculatorTitle">📊 حاسبة المعدل الجامعي</h2>
+    <main class="main-content" role="main">
+        <div class="header">
+            <h1>حساب المعدل الجامعي</h1>
+            <h2>حاسبة معدل لطلبة الجامعة الجزائرية</h2>
+            <p>احسب معدلك الجامعي بدقة وسهولة</p>
         </div>
 
-        <div id="subjectsContainer" class="subjects-container"></div>
-        <button class="add-subject-btn" id="addSubjectButton" onclick="addSubject()">+ إضافة مادة جديدة</button>
-        <button class="calculate-btn" id="calculateButton" onclick="calculateGPA()">احسب المعدل العام</button>
-
-        <div id="resultsSection" class="results-section">
-            <div class="final-gpa">
-                <h2 id="finalGPATitle">المعدل العام الخاص بك</h2>
-                <span class="gpa-value" id="gpaValue">0.00</span>
-                <span class="gpa-scale" id="gpaScale">من 20</span>
+        <section class="main-card" aria-labelledby="calculatorTitle">
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom:20px;">
+                <h2 id="calculatorTitle" class="section-title" data-i18n="calculatorTitle">📊 حاسبة المعدل الجامعي</h2>
             </div>
-            <div class="subjects-summary">
-                <div class="summary-item"><strong id="totalSubjectsLabel">عدد المواد</strong><span id="totalSubjects">0</span></div>
-                <div class="summary-item"><strong id="totalCoeffLabel">مجموع المعاملات</strong><span id="totalCoefficients">0</span></div>
+
+            <div id="subjectsContainer" class="subjects-container" aria-live="polite"></div>
+            <button class="add-subject-btn" id="addSubjectButton" onclick="addSubject()">+ إضافة مادة جديدة</button>
+            <button class="calculate-btn" id="calculateButton" onclick="calculateGPA()">احسب المعدل العام</button>
+
+            <div id="resultsSection" class="results-section" aria-live="polite">
+                <div class="final-gpa">
+                    <h2 id="finalGPATitle">المعدل العام الخاص بك</h2>
+                    <span class="gpa-value" id="gpaValue">0.00</span>
+                    <span class="gpa-scale" id="gpaScale">من 20</span>
+                </div>
+                <div class="subjects-summary">
+                    <div class="summary-item"><strong id="totalSubjectsLabel">عدد المواد</strong><span id="totalSubjects">0</span></div>
+                    <div class="summary-item"><strong id="totalCoeffLabel">مجموع المعاملات</strong><span id="totalCoefficients">0</span></div>
+                </div>
+                <button class="reset-btn" id="resetButton" onclick="resetCalculator()">إعادة الحساب</button>
             </div>
-            <button class="reset-btn" id="resetButton" onclick="resetCalculator()">إعادة الحساب</button>
-        </div>
 
-        <!-- المحتوى النصي الإضافي لتحسين SEO -->
-        <div class="description-section" style="margin-top: 30px; background:#f8fafc; padding:20px; border-radius:16px;">
-            <p>يتيح لك هذا الموقع حساب المعدل الجامعي بدقة وفق نظام التقييم المعتمد في الجامعات الجزائرية، سواء كانت المواد تعتمد على الامتحان فقط أو على الامتحان مع الأعمال الموجهة TD أو التطبيقية TP.</p>
-            <p>الحاسبة مجانية، سهلة الاستعمال، ولا تتطلب أي تسجيل. ما عليك إلا إدخال علاماتك لتحصل على المعدل النهائي فورًا.</p>
-            <p>نظام المعاملات: يحسب المعدل بجمع (علامة المادة × معاملها) مقسومًا على مجموع المعاملات. يمكنك إضافة عدد غير محدود من المواد.</p>
-        </div>
+            <!-- SEO content -->
+            <div class="description-section" style="margin-top: 30px; background:#f8fafc; padding:20px; border-radius:16px;">
+                <p>يتيح لك هذا الموقع حساب المعدل الجامعي بدقة وفق نظام التقييم المعتمد في الجامعات الجزائرية، سواء كان نظام المعاملات أو النسب المئوية. الحاسبة تدعم أنواع تقييم متعددة وتعمل محلياً في المتصفح.</p>
+            </div>
 
-        <!-- Ad Space Middle (optional) -->
-        <div class="ads-container" style="margin-top:20px;">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7815335520625600" data-ad-slot="1234567890" data-ad-format="auto"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
+            <!-- Ad Space Middle -->
+            <div class="ads-container" style="margin-top:20px;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7815335520625600" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </section>
+    </main>
 
-    <div class="footer">
+    <footer class="footer" role="contentinfo">
         <p id="footerText">جميع الحسابات تتم في متصفحك فقط</p>
         <div class="privacy-note"><span>🔒</span> <span id="privacyFooterText">لا نقوم بحفظ أو تخزين أي بيانات شخصية</span></div>
-    </div>
+    </footer>
 </div>
-<script src="script.js"></script>
+
+<!-- Local script deferred for performance -->
+<script src="script.js" defer></script>
 </body>
 </html>
